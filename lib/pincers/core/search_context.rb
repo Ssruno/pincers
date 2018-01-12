@@ -93,6 +93,12 @@ module Pincers::Core
       if elements.last.nil? then nil else wrap_siblings [elements.last] end
     end
 
+    #Implementation of children like jQuery(), issue #18
+    def children(_selector=nil)
+      hash_get_children = {:xpath => 'child::*'}
+      _selector ? search(_selector).search( hash_get_children) : search(  hash_get_children)
+    end
+
     def search(_selector=nil, _options={}, &_block)
       if _selector.is_a? Hash
         _options = _selector

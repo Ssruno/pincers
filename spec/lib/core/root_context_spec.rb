@@ -132,6 +132,37 @@ describe 'Pincers::Core::RootContext' do
     end
   end
 
+  describe children do
+    it "should bring all children from a given context" do
+      children = pincers.children()
+      expect(children.query.lang).to eq :xpath
+      expect(children.query.query).to eq "child::*"
+      expect(children.query.limit).to be nil
+    end
+
+    it "should bring all children from a context with a given selector" do
+      children = pincers.children('.level-2')
+      expect(children.query.lang).to eq :xpath
+      expect(children.query.query).to eq "child::*"
+      expect(children.query.limit).to be nil
+      expect(children[2].tag).to eq "li"
+    end
+
+    context "when is used in conjunction with search()" do
+
+      let(:searched_result) { pincers.search('.level-2') }
+
+      it "should bring all children from a previous search" do
+        children = searched_result.children()
+        expect(children.query.lang).to eq :xpath
+        expect(children.query.query).to eq "child::*"
+        expect(children.query.limit).to be nil
+      end
+
+    end
+
+  end
+
   describe "search" do
     it "should load a new child context that applies the given query" do
       childs = pincers.search('selector')

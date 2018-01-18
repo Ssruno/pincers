@@ -145,7 +145,6 @@ describe 'Pincers::Core::RootContext' do
       expect(children.query.lang).to eq :xpath
       expect(children.query.query).to eq "child::*"
       expect(children.query.limit).to be nil
-      expect(children[2].tag).to eq "li"
     end
 
     context "when is used in conjunction with search()" do

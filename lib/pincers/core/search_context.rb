@@ -93,6 +93,18 @@ module Pincers::Core
       if elements.last.nil? then nil else wrap_siblings [elements.last] end
     end
 
+    def parent_jq(_selector=nil)
+      if _selector
+        parser = Pincers::CSS::Parser.new _selector
+        exp = parser.to_xpath(".//parent::")
+        exp = exp.first if exp.length == 1
+
+        search(:xpath => exp)
+      else
+        search( :xpath => 'parent::*' )
+      end
+    end
+
     def search(_selector=nil, _options={}, &_block)
       if _selector.is_a? Hash
         _options = _selector

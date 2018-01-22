@@ -93,6 +93,19 @@ module Pincers::Core
       if elements.last.nil? then nil else wrap_siblings [elements.last] end
     end
 
+    # Implementation of siblings() from JQuery
+    def siblings(_selector=nil)
+      if _selector
+        parser = Pincers::CSS::Parser.new _selector
+        exp = parser.to_xpath("")
+        exp = exp.first if exp.length == 1
+
+        search(:xpath => "preceding-sibling::#{exp} | following-sibling::#{exp}")
+      else
+        search( :xpath => 'preceding-sibling::* | following-sibling::*' )
+      end
+    end
+
     def search(_selector=nil, _options={}, &_block)
       if _selector.is_a? Hash
         _options = _selector

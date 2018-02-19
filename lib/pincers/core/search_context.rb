@@ -95,8 +95,15 @@ module Pincers::Core
 
     #Implementation of children like jQuery(), issue #18
     def children(_selector=nil)
-      hash_get_children = {:xpath => 'child::*'}
-      _selector ? search(_selector).search( hash_get_children) : search(  hash_get_children)
+      if _selector
+        parser = Pincers::CSS::Parser.new _selector
+        exp = parser.to_xpath(".//")
+        exp = exp.first if exp.length == 1
+
+        search(:xpath => "#{exp}/child::*")
+      else
+        search( :xpath => 'child::*' )
+      end
     end
 
     def search(_selector=nil, _options={}, &_block)

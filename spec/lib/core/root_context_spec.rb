@@ -143,7 +143,7 @@ describe 'Pincers::Core::RootContext' do
     it "should bring all children from a context with a given selector" do
       children = pincers.children('.level-2')
       expect(children.query.lang).to eq :xpath
-      expect(children.query.query).to eq "child::*"
+      expect(children.query.query).to eq ".//*[contains(concat(' ', normalize-space(@class), ' '), ' level-2 ')]/child::*"
       expect(children.query.limit).to be nil
     end
 
